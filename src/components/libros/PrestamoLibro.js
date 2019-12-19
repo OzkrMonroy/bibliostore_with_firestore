@@ -9,10 +9,12 @@ import PropTypes from "prop-types";
 import Swal from "sweetalert2";
 import FichaSuscriptor from '../suscriptores/FichaSuscriptor';
 
+// Redux actions
+import { buscarUsuario }  from '../../actions/buscarUsuarioAction'
+
 class PrestamoLibro extends Component {
   state = { 
     busqueda : '',
-    resultado : {},
     error: false
    }
 
@@ -21,7 +23,7 @@ class PrestamoLibro extends Component {
 
     const { busqueda } = this.state
 
-    const { firestore } = this.props
+    const { firestore, buscarUsuario } = this.props
 
     // hacer la consulta
     const coleccion = firestore.collection('suscriptores')
@@ -31,14 +33,15 @@ class PrestamoLibro extends Component {
     consulta.then(res => {
       if(res.empty) {
         // no hay resultado
+        buscarUsuario({})
         this.setState({
-          resultado : {},
           error : true
         })
       }else {
+        // colocar los datos con redux
         const datos = res.docs[0]
+        buscarUsuario(datos.data())
         this.setState({
-          resultado : datos.data(),
           error: false
         })
       }
@@ -81,12 +84,13 @@ class PrestamoLibro extends Component {
     if(!libro) return <Spinner/>
 
     // extraer datos del alumno
-    const { resultado, error } = this.state
+    const { usuario } = this.props
+    const { error } = this.state
 
     let fichaAlumno, btnSolicitar
 
-    if(resultado.nombre) {
-      fichaAlumno = <FichaSuscriptor alumno={resultado}/>
+    if(usuario.nombre) {
+      fichaAlumno = <FichaSuscriptor alumno={usuario}/>
       btnSolicitar = <button className="btn btn-dark btn-block mb-4" 
                       onClick={this.solicitarPrestamo}>Solicitar libro
                      </button>
@@ -149,7 +153,8 @@ export default compose(
       doc: props.match.params.id
     }
   ]),
-  connect(({ firestore: { ordered } }, props) => ({
-    libro: ordered.libro && ordered.libro[0]
-  }))
+  connect(({ firestore: { ordered }, usuario }, props) => ({
+    libro: ordered.libro && ordered.libro[0],
+    usuario: usuario
+  }), { buscarUsuario })
 )(PrestamoLibro);
