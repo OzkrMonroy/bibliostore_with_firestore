@@ -49,10 +49,15 @@ const rootReducer = combineReducers({
 // State Inicial
 const initialState = {}
 
-// Crear el store
+// Crear el store (For production)
 const store = createStoreWithFirebase(rootReducer, initialState, compose(
-  reactReduxFirebase(firebase),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  reactReduxFirebase(firebase)
 ))
+
+// For development
+// const store = createStoreWithFirebase(rootReducer, initialState, compose(
+//   reactReduxFirebase(firebase),
+//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+// ))
 
 export default store

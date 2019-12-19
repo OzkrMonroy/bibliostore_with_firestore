@@ -55,25 +55,35 @@ class PrestamoLibro extends Component {
   }
 
   solicitarPrestamo = () => {
-    const suscriptor = this.state.resultado
-    suscriptor.fecha_solicitud = new Date().toLocaleDateString()
+    const { usuario, buscarUsuario } = this.props
+    usuario.fecha_solicitud = new Date().toLocaleDateString()
 
-    const libroActualizado = this.props.libro
+    // Los elementos de props no se pueden mutar, toma una copia y crea un arreglo nuevo
+    let prestados = []
+    prestados = [...this.props.libro.prestados, usuario]
 
-    libroActualizado.prestados.push(suscriptor)
+    // Copiar el objeto de libro 
+    let libro = {...this.props.libro}
+
+    // Eliminar los prestados que posea
+    delete libro.prestados
+
+    // Asignar los nuevos prestados
+    libro.prestados = prestados
 
     const {firestore, history} = this.props
 
     firestore.update({
       collection: 'libros',
-      doc: libroActualizado.id
-    }, libroActualizado).then(() => {
+      doc: libro.id
+    }, libro).then(() => {
       Swal.fire(
         '¡Agregado!',
         'El libro se asignó al usuario correctamente',
         'success'
       )
-       history.push(home)
+      buscarUsuario({})
+      history.push(home)
     })
 
   }
