@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { home } from '../../routes'
 import PropTypes from 'prop-types'
-import Swal from 'sweetalert2'
+import { successAlert } from '../../alertDialogs'
 // Firestore
 import { firestoreConnect } from 'react-redux-firebase'
 
@@ -27,11 +27,7 @@ class NuevoLibro extends Component {
     // Guardarlo en la base de datos
     firestore.add({collection: 'libros'}, nuevoLibro)
              .then(() => {
-              Swal.fire(
-                '¡Agregado!',
-                'El libro se ha agregado correctamente',
-                'success'
-              )
+               successAlert('Agregado', 'El libro se ha agregado correctamente')
                history.push(home)
               })
   }

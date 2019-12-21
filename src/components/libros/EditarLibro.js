@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { home } from "../../routes";
 import Spinner from "../layout/spinner/Spinner";
 import PropTypes from "prop-types";
-import Swal from "sweetalert2";
+import { successAlert } from '../../alertDialogs'
 
 class EditarLibro extends Component {
   tituloRef = React.createRef()
@@ -33,12 +33,8 @@ class EditarLibro extends Component {
       collection: 'libros',
       doc: libro.id
     }, libroActualizado).then(() => {
-      Swal.fire(
-        '¡Actualizado!',
-        'El libro se ha actualizado correctamente',
-        'success'
-      )
-       history.push(home)
+      successAlert('Actualizado', 'El libro se ha actualizado correctamente')
+      history.push(home)
     })
   }
 

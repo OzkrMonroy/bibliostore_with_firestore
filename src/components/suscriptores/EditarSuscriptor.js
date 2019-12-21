@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { suscriptores } from "../../routes";
 import Spinner from "../layout/spinner/Spinner";
 import PropTypes from "prop-types";
-import Swal from 'sweetalert2'
+import { successAlert } from '../../alertDialogs'
 
 class EditarSuscriptor extends Component {
   nombreRef = React.createRef()
@@ -32,11 +32,7 @@ class EditarSuscriptor extends Component {
       collection: 'suscriptores',
       doc: suscriptor.id
     }, suscriptorActualizado).then(() => {
-      Swal.fire(
-        '¡Actualizado!',
-        'El suscriptor se ha actualizado correctamente',
-        'success'
-      )
+       successAlert('Actualizado', 'El suscriptor se ha actualizado correctamente')
        history.push(suscriptores)
     })
   }

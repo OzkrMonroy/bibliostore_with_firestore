@@ -7,7 +7,7 @@ import { mostrarSuscriptor, nuevoSuscriptor } from '../../routes'
 import Spinner from '../layout/spinner/Spinner';
 
 import PropTypes from 'prop-types'
-import Swal from 'sweetalert2'
+import { successAlert, confirmAlert } from '../../alertDialogs'
 
 const Suscriptores = ({suscriptores, firestore}) => {
 
@@ -16,27 +16,15 @@ const Suscriptores = ({suscriptores, firestore}) => {
   // Elimnar suscriptor
   const eliminarSuscriptor = id => {
 
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: "Esta acción no se puede deshacer",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Eliminar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
+    confirmAlert('¿Estás seguro?', "Esta acción no se puede deshacer", 'Eliminar', 'Cancelar')
+    .then((result) => {
       if (result.value) {
         // Eliminar
         firestore.delete({
           collection : 'suscriptores',
           doc : id
         })
-        Swal.fire(
-          '¡Eliminado!',
-          'El suscriptor se ha eliminado correctamente',
-          'success'
-        )
+        successAlert('Eliminado', 'El suscriptor se ha eliminado correctamente')
       }
     })
   }

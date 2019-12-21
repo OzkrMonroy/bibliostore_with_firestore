@@ -10,14 +10,7 @@ import buscarUsuarioReducer from './reducers/buscarUsuarioReducer'
 
 // Configurar firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyCReHyHhNcyOXDySD-k_1hnLfE3iRzjtwQ",
-  authDomain: "blibliostore-62d5e.firebaseapp.com",
-  databaseURL: "https://blibliostore-62d5e.firebaseio.com",
-  projectId: "blibliostore-62d5e",
-  storageBucket: "blibliostore-62d5e.appspot.com",
-  messagingSenderId: "467565703258",
-  appId: "1:467565703258:web:8489bf753e63dcf5a3e863",
-  measurementId: "G-NQ3D8BZ7X1"
+  // Firebase Config here
 }
 
 // Inicializar firebase

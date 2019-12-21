@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { home } from "../../routes";
 import Spinner from "../layout/spinner/Spinner";
 import PropTypes from "prop-types";
-import Swal from "sweetalert2";
+import { successAlert } from '../../alertDialogs'
 import FichaSuscriptor from '../suscriptores/FichaSuscriptor';
 
 // Redux actions
@@ -77,11 +77,7 @@ class PrestamoLibro extends Component {
       collection: 'libros',
       doc: libro.id
     }, libro).then(() => {
-      Swal.fire(
-        '¡Agregado!',
-        'El libro se asignó al usuario correctamente',
-        'success'
-      )
+      successAlert('¡Agregado!', 'El libro se asignó al usuario correctamente')
       buscarUsuario({})
       history.push(home)
     })
@@ -96,18 +92,6 @@ class PrestamoLibro extends Component {
     // extraer datos del alumno
     const { usuario } = this.props
     const { error } = this.state
-
-    let fichaAlumno, btnSolicitar
-
-    if(usuario.nombre) {
-      fichaAlumno = <FichaSuscriptor alumno={usuario}/>
-      btnSolicitar = <button className="btn btn-dark btn-block mb-4" 
-                      onClick={this.solicitarPrestamo}>Solicitar libro
-                     </button>
-    }else {
-      fichaAlumno = null
-      btnSolicitar = null
-    }
 
     return ( 
       <div className="row">
@@ -140,8 +124,7 @@ class PrestamoLibro extends Component {
                 <input type="submit" value="Buscar alumno" className="btn btn-success btn-block"/>
               </form>
               {/* Muestra la ficha del alumno */}
-              {fichaAlumno}
-              {btnSolicitar}
+              {usuario.nombre ? <FichaSuscriptor alumno={usuario} solicitarPrestamo={this.solicitarPrestamo}/> : null}
               {error ? <div className="alert alert-danger text-center">Datos incorrectos</div> : null}
             </div>
           </div>
