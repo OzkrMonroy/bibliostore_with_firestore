@@ -20,12 +20,14 @@ const FichaSuscriptor = ({ alumno, solicitarPrestamo }) => {
           <span className="font-weight-normal ml-2">{alumno.carrera}</span>
         </p>
       </div>
-      <button
-        className="btn btn-dark btn-block mb-4"
-        onClick={solicitarPrestamo}
-      >
-        Solicitar libro
-      </button>
+      <div className="card-footer">
+        <button
+          className="btn btn-primary btn-block mb-4"
+          onClick={solicitarPrestamo}
+        >
+          Solicitar libro
+        </button>
+      </div>
     </div>
   );
 };
